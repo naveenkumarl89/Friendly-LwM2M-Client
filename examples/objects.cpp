@@ -3,6 +3,7 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 #include <cstring>
+#include "config.h"
 
 using namespace std;
 
@@ -49,8 +50,8 @@ void serverInit(WppClient &client) {
 void securityInit(WppClient &client) {
     client.registry().registerObj(Lwm2mSecurity::object(client));
     wpp::Instance *security = Lwm2mSecurity::createInst(client);
-    string url = "coaps://demodm.friendly-tech.com:"; //"coaps://leshan.eclipseprojects.io:"
-
+    //string url = "coaps://demodm.friendly-tech.com:"; //"coaps://leshan.eclipseprojects.io:"
+	std::string url = g_config.serverUrl;
     // PSK key: 00112233445566778899998877665544
     // RPK public.pem: 3059301306072a8648ce3d020106082a8648ce3d03010703420004bada5475344ba22961a7d965ac518e73481a5f77832bd996c2fa3527e8f3c4248dda621fa9c1348d1365c357357c54869477e387fd2c2675b1c6f28aa506677b
     // RPK private.pem: 92045322a5b34562e1ffec4bcdcc257b9ecfc3478bfaea4b6b0731350202ef2d
@@ -107,9 +108,9 @@ void deviceInit(WppClient &client) {
     device->set<INT_T>(Device::ERROR_CODE_11, 0, Device::NO_ERROR);
     device->set<STRING_T>(Device::SUPPORTED_BINDING_AND_MODES_16, WPP_BINDING_UDP);
     device->set<STRING_T>(Device::MANUFACTURER_0, "Friendly");
-    device->set<STRING_T>(Device::MODEL_NUMBER_1, "Lightweight M2M Client");
+    //device->set<STRING_T>(Device::MODEL_NUMBER_1, "Lightweight M2M Client");
     device->set<STRING_T>(Device::SERIAL_NUMBER_2, "0123456789");
-
+	std::string ep = g_config.endpointName;
     #if OBJ_O_2_LWM2M_ACCESS_CONTROL
 	Lwm2mAccessControl::create(Device::object(client), Lwm2mAccessControl::ALL_OBJ_RIGHTS);
 	Lwm2mAccessControl::create(*device, TEST_SERVER_SHORT_ID);
