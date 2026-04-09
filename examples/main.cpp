@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include "Connection.h"
 #include "objects.h"
+#include "config.h"
 
 using namespace std;
 using namespace wpp;
